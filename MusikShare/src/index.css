@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +9,7 @@
 
 /* Body styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   background: url('./assets/images/vishal-das-_jkEmPsHILE-unsplash.jpg') no-repeat center center fixed;
   background-size: cover;
   color: #333;

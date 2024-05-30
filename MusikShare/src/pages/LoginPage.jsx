@@ -4,7 +4,8 @@ import { getAuth, signInWithPopup, signInWithEmailAndPassword } from 'firebase/a
 import { googleProvider, twitterProvider } from '../firebaseConfig';
 import './LoginPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faTwitter,  } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faTwitter, } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -40,39 +41,50 @@ const LoginPage = () => {
       <div className="loginContainer">
         <h2>Sign In</h2>
         <form onSubmit={handleEmailLogin}>
+
           <div className="inputGroup">
-            <label>Email or Username</label>
             <input
               type="email"
-              value={email}
+              placeholder='Email'
               onChange={(e) => setEmail(e.target.value)}
               required
-            />
+            /> 
+            <FontAwesomeIcon  icon={faEnvelope} className='icon' />
           </div>
           <div className="inputGroup">
-            <label>Password</label>
             <input
               type="password"
-              value={password}
+              placeholder='Password'
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <FontAwesomeIcon icon={faLock} className='icon'/>
           </div>
-          <button type="submit" className="loginBtn">Sign In</button>
-        </form>
-        <div className="divider">OR</div>
+          <div className='remember-forgot'>
+              <label><input type="checkbox" />
+              Remember me
+              </label>
+              <a href="#">Forgot password?</a>
+          </div>
+          <button type="submit">Sign In</button>
+
+          <div className="divider">------OR------</div>
         <div className="socialLogin">
           <button onClick={() => handleLogin(googleProvider)} className="socialBtn google">
-            <FontAwesomeIcon icon={faGoogle} size="2x" />
+            <FontAwesomeIcon icon={faGoogle} size="x" />
           </button>
           <button onClick={() => handleLogin(twitterProvider)} className="socialBtn twitter">
-            <FontAwesomeIcon icon={faTwitter} size="2x" />
+            <FontAwesomeIcon icon={faTwitter} size="x" />
           </button>
+
         </div>
-        <div className="extraLinks">
-          <a href="/forgot-password">Forgot Password</a>
-          <a href="/register">Don't have an account? Register an Account</a>
-        </div>
+
+          <div className='register-link'>
+            <p>Don't have an account? <a href="#">Sign Up</a></p>
+          </div>
+          
+        </form>
+        
       </div>
     </div>
   );
