@@ -1,5 +1,6 @@
 import React from 'react';
 import PlaylistImport from '../components/PlaylistImport';
+import './ImportPage.css';
 
 const ImportPage = () => {
   return (

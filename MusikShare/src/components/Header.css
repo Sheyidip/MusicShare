@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: none; 
+  }
+  
+  .navList {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .logoContainer {
+    margin-right: 20px;
+  }
+  
+  .logo {
+    height: 80px;
+    width: auto;
+  }
+
+  .navList {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    flex-grow: 1;
+  }
+  
+  .navLink {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 15px;
+    transition: text-decoration 0.3s ease;
+  }
+  
+  .navLink:hover {
+    text-decoration: underline;
+  }
