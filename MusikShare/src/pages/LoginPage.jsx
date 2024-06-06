@@ -1,90 +1,97 @@
-// src/components/Login.js
 import React, { useState } from 'react';
-import { getAuth, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
-import { googleProvider, twitterProvider } from '../firebaseConfig';
+import {signInWithEmailAndPassword, getAuth } from 'firebase/auth'; // Corrected import
+import  OAuth from '../hooks/OAuth'
+import { toast } from "react-toastify";
 import './LoginPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faTwitter, } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import {  useNavigate } from 'react-router-dom';
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = (provider) => {
-    const auth = getAuth();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const handleEmailLogin = (event) => {
-    event.preventDefault();
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  const [showPassword, setShowPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = formData;
+  const navigate = useNavigate();
+  function onChange(e) {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+  }
+  async function onSubmit(e) {
+    e.preventDefault();
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userCredential.user) {
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("Bad user credentials");
+    }
+  }
 
   return (
     <div className="loginWrapper">
+      
       <div className="loginContainer">
         <h2>Sign In</h2>
-        <form onSubmit={handleEmailLogin}>
-
+        <form onSubmit={onSubmit}>
           <div className="inputGroup">
             <input
               type="email"
-              placeholder='Email'
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              autoComplete="Email"
+              value={email}
+              onChange={onChange}
               required
-            /> 
-            <FontAwesomeIcon  icon={faEnvelope} className='icon' />
+            />
+            <FontAwesomeIcon icon={faEnvelope} className="icon" />
           </div>
           <div className="inputGroup">
             <input
-              type="password"
-              placeholder='Password'
-              onChange={(e) => setPassword(e.target.value)}
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              autoComplete="current-password"
+              value={password}
+              onChange={onChange}
               required
             />
-            <FontAwesomeIcon icon={faLock} className='icon'/>
+            {showPassword ? (
+                <AiFillEyeInvisible
+                  className="absolute right-3 top-3 text-xl cursor-pointer"
+                  onClick={() => setShowPassword((prevState) => !prevState)}
+                />
+              ) : (
+                <AiFillEye
+                  className="absolute right-3 top-3 text-xl cursor-pointer"
+                  onClick={() => setShowPassword((prevState) => !prevState)}
+                />
+              )}
+            <FontAwesomeIcon icon={faLock} className="icon" />
           </div>
-          <div className='remember-forgot'>
-              <label><input type="checkbox" />
+          <div className="remember-forgot">
+            <label>
+              <input type="checkbox" />
               Remember me
-              </label>
-              <a href="#">Forgot password?</a>
+            </label>
+            <a href="#">Forgot password?</a>
           </div>
-          <button type="submit">Sign In</button>
-
-          <div className="divider">------OR------</div>
-        <div className="socialLogin">
-          <button onClick={() => handleLogin(googleProvider)} className="socialBtn google">
-            <FontAwesomeIcon icon={faGoogle} size="x" />
-          </button>
-          <button onClick={() => handleLogin(twitterProvider)} className="socialBtn twitter">
-            <FontAwesomeIcon icon={faTwitter} size="x" />
-          </button>
-
-        </div>
-
-          <div className='register-link'>
-            <p>Don't have an account? <a href="#">Sign Up</a></p>
+          <button type="submit">Sign in</button>
+          <div className="register-link">
+            <p>Don't have an account? <a href="signup">Sign Up</a></p>
+            <div className="divider">------OR------</div>
           </div>
-          
+          <OAuth />
         </form>
-        
       </div>
     </div>
   );

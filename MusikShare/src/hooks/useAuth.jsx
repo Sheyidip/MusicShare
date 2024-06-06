@@ -1,8 +1,19 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const useAuth = () => {
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
-  return { isAuthenticated, user };
-};
+export function useAuthStatus() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [checkingStatus, setCheckingStatus] = useState(true);
 
-export default useAuth;
+  useEffect(() => {
+    const auth = getAuth();
+    console.log(auth);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      }
+      setCheckingStatus(false);
+    });
+  }, []);
+  return { loggedIn, checkingStatus };
+}
