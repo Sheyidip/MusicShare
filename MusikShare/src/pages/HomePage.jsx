@@ -1,28 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './HomePage.css';
+import userAImage from '../assets/images/userA.jpg';
+import userBImage from '../assets/images/userB.jpg';
+import userCImage from '../assets/images/userC.jpg';
 import homeImage from '../assets/images/Spotify-image (1).png'; // Ensure this path is correct
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import Footer from './FooterPage'; // Import Footer component
+import {Picker, Emoji } from 'emoji-mart';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
+const reviews = [
+  {
+    name: "John Doe",
+    review: "MusikShare is an amazing tool for managing my playlists across different platforms! 😊",
+    rating: 5,
+    image: userAImage
+  },
+  {
+    name: "Jane Smith",
+    review: "I love how easy it is to convert my Apple Music playlists to Spotify with MusikShare.😍",
+    rating: 4,
+    image: userBImage
+  },
+  {
+    name: "Chloe Suillivan",
+    review: "MusikShare made it so easy to transfer my playlists! A must have for all music lovers😊",
+    rating: 5,
+    image: userCImage
+  },
+  // Add more reviews as needed
+];
 
 const HomePage = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  useEffect(() => {
-    let slideIndex = 0;
-    const slides = document.querySelectorAll('.slide');
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % reviews.length);
+  };
 
-    const showSlides = () => {
-      slides.forEach((slide, index) => {
-        slide.style.display = index === slideIndex ? 'block' : 'none';
-      });
-      slideIndex = (slideIndex + 1) % slides.length;
-    };
-
-    showSlides();
-    const interval = setInterval(showSlides, 3000); // Change slide every 3 seconds
-
-    return () => clearInterval(interval);
-  }, []);
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + reviews.length) % reviews.length);
+  };
 
   return (
     <div className="homeContainer">
@@ -39,14 +57,14 @@ const HomePage = () => {
           <h2 className="title">What We Offer</h2>
           <p className="description">
             MusikShare is a powerful tool for converting and sharing your music playlists across different platforms. With MusikShare, you can easily:
-            <ul>
-              <li>Import your playlists from various music streaming services.</li>
-              <li>Convert your playlists to different formats and platforms effortlessly.</li>
-              <li>Export your playlists to share with friends or transfer to another service.</li>
-              <li>Keep your music collection organized and accessible, no matter where you are.</li>
-              <li>Discover new music and expand your listening experience.</li>
-            </ul>
           </p>
+          <ul>
+            <li>Import your playlists from various music streaming services.</li>
+            <li>Convert your playlists to different formats and platforms effortlessly.</li>
+            <li>Export your playlists to share with friends or transfer to another service.</li>
+            <li>Keep your music collection organized and accessible, no matter where you are.</li>
+            <li>Discover new music and expand your listening experience.</li>
+          </ul>
         </div>
         <img src={homeImage} alt="Music" className="homeImage" />
       </div>
@@ -72,17 +90,22 @@ const HomePage = () => {
 
       {/* Testimonials/Reviews Section */}
       <div className="testimonials">
-        <h2>What Our Users Say</h2>
+        <h2>Testimonials</h2>
         <div className="slideshow">
-          <div className="slide">
-            <p>"MusikShare made it so easy to transfer my playlists!" - Immaculate</p>
-          </div>
-          <div className="slide">
-            <p>"I love the simplicity and speed of this app." - Mayowa</p>
-          </div>
-          <div className="slide">
-            <p>"A must-have for any music lover." - Hannah</p>
-          </div>
+          {reviews.map((review, index) => (
+            <div key={index} className={`slide ${index === currentSlide ? 'active' : ''}`}>
+              <img src={review.image} alt={review.name} className="reviewImage" />
+              <p> {review.review} </p>
+              <div className="rating">
+                {[...Array(5)].map((star, i) => (
+                  <FontAwesomeIcon key={i} icon={faStar} className={i < review.rating ? 'star active' : 'star'} />
+                ))}
+              </div>
+              <h3>{review.name}</h3>
+            </div>
+          ))}
+          <button className="prev" onClick={prevSlide}>&#10094;</button>
+          <button className="next" onClick={nextSlide}>&#10095;</button>
         </div>
       </div>
 
@@ -106,9 +129,6 @@ const HomePage = () => {
           <p>Yes, MusikShare allows you to export and share your playlists easily with friends across different platforms.</p>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

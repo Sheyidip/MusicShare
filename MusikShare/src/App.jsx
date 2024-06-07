@@ -10,6 +10,7 @@ import SignupPage from "./pages/SignupPage";
 import ImportPage from "./pages/ImportPage";
 import ConvertPage from "./pages/ConvertPage";
 import ExportPage from "./pages/ExportPage";
+import Footer from "./pages/FooterPage";
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
         theme="dark"
       />
     </BrowserRouter>
+    <Footer />
     </Provider>
     
   );
