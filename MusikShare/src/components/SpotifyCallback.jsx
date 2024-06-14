@@ -1,27 +1,33 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getSpotifyAccessToken } from '../api/spotifyAuth'; // Ensure the path is correct
+import { useLocation } from 'react-router-dom';
+import { getSpotifyAccessToken } from '../api/spotifyAuth';
 
 const SpotifyCallback = () => {
-  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = searchParams.get('code');
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
 
     if (code) {
       getSpotifyAccessToken(code)
-        .then((token) => {
-          localStorage.setItem('spotifyAccessToken', token);
-          navigate('/import');
+        .then(accessToken => {
+          // Handle accessToken (e.g., store it in localStorage)
+          console.log('Spotify access token:', accessToken);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Error getting Spotify access token:', error);
         });
+    } else {
+      console.error('No authorization code found.');
     }
-  }, [navigate]);
+  }, [location.search]);
 
-  return <div>Loading...</div>;
+  return (
+    <div>
+      <p>Processing Spotify callback...</p>
+    </div>
+  );
 };
 
 export default SpotifyCallback;

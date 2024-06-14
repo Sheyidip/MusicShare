@@ -1,13 +1,16 @@
+// SpotifyLogin.jsx
+
 import React from 'react';
-import { getSpotifyAuthURL } from '../api/spotifyAuth'; // Ensure the path is correct
+import { getSpotifyAuthURL } from '../api/spotifyAuth';
 
 const SpotifyLogin = () => {
   const handleSpotifyLogin = () => {
-    window.location.href = getSpotifyAuthURL();
+    const authURL = getSpotifyAuthURL();
+    window.location.href = authURL;
   };
 
   return (
-    <div className="spotifyLoginContainer">
+    <div>
       <h2>Login with Spotify</h2>
       <button onClick={handleSpotifyLogin}>Login with Spotify</button>
     </div>

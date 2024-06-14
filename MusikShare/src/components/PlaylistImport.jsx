@@ -34,11 +34,16 @@ const PlaylistImport = ({ onImport }) => {
     if (spotifyToken) {
       axios.get(`http://localhost:5173/spotify/playlists?token=${spotifyToken}`)
         .then(response => {
+          if (response.data.items) {
           onImport(response.data.items.map(playlist => ({
             ...playlist,
             service: 'spotify',
           })));
-        })
+          
+        } else {
+          console.error('No items found in Spotify playlists response:', response.data);
+        }
+    })
         .catch(error => {
           console.error('Error fetching Spotify playlists:', error);
         });
