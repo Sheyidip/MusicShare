@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
 import { db } from '../firebaseConfig';
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import './SignupPage.css';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import OAuth from '../hooks/OAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import './SignupPage.css';
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
   });
 
   const { name, email, password } = formData;
@@ -31,19 +31,15 @@ const SignupPage = () => {
 
   async function onSubmit(e) {
     e.preventDefault();
-    console.log('Form submitted');
 
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+      toast.error('Passwords do not match');
       return;
     }
 
     try {
       const auth = getAuth();
-      console.log('Creating user...');
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log('User created', userCredential);
-
 
       await updateProfile(auth.currentUser, { displayName: name });
       const user = userCredential.user;
@@ -52,20 +48,17 @@ const SignupPage = () => {
       delete formDataCopy.password;
       formDataCopy.timestamp = serverTimestamp();
 
-      console.log('Saving user to Firestore');
-      await setDoc(doc(db, "users", user.uid), formDataCopy);
-      
-      toast.success("Sign up was successful");
-      console.log('Navigating to home page');
-      navigate("/");
+      await setDoc(doc(db, 'users', user.uid), formDataCopy);
+
+      toast.success('Sign up was successful');
+      navigate('/');
     } catch (error) {
-      console.error('Error during signup', error);
       if (error.code === 'auth/email-already-in-use') {
         toast.error('Email already in use. Please use a different email.');
       } else if (error.code === 'auth/weak-password') {
         toast.error('Password is too weak. Please use a stronger password.');
       } else {
-      toast.error("Something went wrong with the registration");
+        toast.error('Something went wrong with the registration');
       }
     }
   }
@@ -100,7 +93,7 @@ const SignupPage = () => {
           </div>
           <div className="inputGroup">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               id="password"
               placeholder="Password"
               autoComplete="new-password"
@@ -110,12 +103,12 @@ const SignupPage = () => {
             />
             {showPassword ? (
               <AiFillEyeInvisible
-                className="icon"
+                className="togglePassword"
                 onClick={() => setShowPassword((prevState) => !prevState)}
               />
             ) : (
               <AiFillEye
-                className="icon"
+                className="togglePassword"
                 onClick={() => setShowPassword((prevState) => !prevState)}
               />
             )}

@@ -1,31 +1,28 @@
+import axios from 'axios';
 
 export const getSpotifyAuthURL = () => {
-    const clientId = '3da747b6b6624e23ab53b38ba846883f';
-    const redirectUri = 'http://localhost:5173/callback';
-    const scopes = 'user-read-private user-read-email playlist-read-private';
-    const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    return authUrl;
-  };
-  
-  export const getSpotifyAccessToken = async (code) => {
-    const clientId = '3da747b6b6624e23ab53b38ba846883f';
-    const clientSecret = 'a7ea7b7790f14746882df4b6cc274ad8';
-    const redirectUri = 'http://localhost:5173/callback';
-  
-    const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic ' + btoa(`${clientId}:${clientSecret}`)
-      },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        code,
-        redirect_uri: redirectUri,
-      })
-    });
-  
-    const data = await response.json();
-    return data.access_token;
-  };
-  
+  const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+  console.log('Spotify Client ID:', import.meta.env.VITE_SPOTIFY_CLIENT_ID);
+  const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
+  const scope = 'playlist-read-private';
+
+  return `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}`;
+};
+
+export const getSpotifyAccessToken = async (code) => {
+  const response = await axios.post('https://accounts.spotify.com/api/token', null, {
+    params: {
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI,
+      client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+      client_secret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
+    },
+    headers: {
+      Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    
+  });
+  return response.data.access_token;
+};

@@ -1,0 +1,22 @@
+.faq {
+    margin: 50px;
+    color: #ffffff94;
+    text-align: left;
+  }
+  
+  .faq h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: bisque;
+  }
+  
+  .faqItem {
+    margin-bottom: 20px;
+  }
+  
+  .faq h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: bisque;
+  }
+  

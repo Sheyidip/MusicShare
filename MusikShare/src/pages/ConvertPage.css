@@ -1,34 +1,26 @@
 /* src/pages/ConvertPage.css */
-.convertPageWrapper {
+.convertPageContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  background-color: wheat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: url('../assets/images/Spotify-image\ \(1\).png') no-repeat center center fixed;
-  background-size: cover;
+  color: #333;
 }
 
-.convertPageContainer {
-  background: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.serviceSelection {
-  display: flex;
-  justify-content: space-between;
+.convertPageContainer h2 {
   margin-bottom: 20px;
 }
 
-label {
-  display: flex;
-  flex-direction: column;
-  margin-right: 10px;
-}
-
-select {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.conversionStatus {
+  margin-top: 20px;
+  font-size: 18px;
 }

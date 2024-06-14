@@ -1,32 +1,23 @@
+import axios from 'axios';
 
 export const getGoogleAuthURL = () => {
-    const clientId = '1081477315392-qh7k6gqn95pgvvupf1f058tackfld2jg.apps.googleusercontent.com';
-    const redirectUri = 'http://localhost:3000/callback';
-    const scopes = 'https://www.googleapis.com/auth/youtube.readonly';
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&access_type=offline&prompt=consent`;
-    return authUrl;
-  };
-  
-  export const getGoogleAccessToken = async (code) => {
-    const clientId = '1081477315392-qh7k6gqn95pgvvupf1f058tackfld2jg.apps.googleusercontent.com';
-    const clientSecret = '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';
-    const redirectUri = 'http://localhost:3000/callback';
-  
-    const response = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        code,
-        client_id: clientId,
-        client_secret: clientSecret,
-        redirect_uri: redirectUri,
-        grant_type: 'authorization_code'
-      })
-    });
-  
-    const data = await response.json();
-    return data.access_token;
-  };
-  
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  console.log('Google Client ID:', import.meta.env.VITE_GOOGLE_CLIENT_ID);
+  const redirectUri = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
+  const scope = 'https://www.googleapis.com/auth/youtube.readonly';
+
+  return `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&access_type=offline`;
+};
+
+export const getGoogleAccessToken = async (code) => {
+  const response = await axios.post('https://oauth2.googleapis.com/token', null, {
+    params: {
+      code: code,
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
+      redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI,
+      grant_type: 'authorization_code',
+    },
+  });
+  return response.data.access_token;
+};

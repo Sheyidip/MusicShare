@@ -11,6 +11,10 @@ export function useAuthStatus() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedIn(true);
+        localStorage.setItem('isAuthenticated', 'true');
+      } else {
+        setLoggedIn(false);
+        localStorage.removeItem('isAuthenticated');
       }
       setCheckingStatus(false);
     });

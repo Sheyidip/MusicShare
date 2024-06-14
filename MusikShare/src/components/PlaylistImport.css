@@ -1,18 +1,48 @@
-
-
-
-.playlistImportContainer {
-  width: 45%;
+.importPageContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  background-image: url('../assets/images/alyssa-hurley-yekIZ4ltv1o-unsplash.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #333; /* Adjust text color for better contrast */
 }
 
-.playlist {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.authButtons {
+  margin-bottom: 20px;
 }
 
-h3 {
-  margin-bottom: 10px;
+.authButtons button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
 
+.playlists {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+.importPageContainer::before {
+  content: '';
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the transparency as needed */
+  z-index: 0;
+}
+
+.importPageContainer > * {
+  position: relative;
+  z-index: 1;
 }

@@ -28,6 +28,7 @@ const OAuth =() => {
         });
       }
 
+      //localStorage.setItem('isAuthenticated', 'true');
       navigate("/");
     } catch (error) {
       toast.error("Could not authorize with Google");
@@ -52,6 +53,8 @@ const OAuth =() => {
           timestamp: serverTimestamp(),
         });
       }
+
+      //localStorage.setItem('isAuthenticated', 'true');
       navigate("/");
     } catch (error) {
       toast.error("Could not authorize with Twitter");

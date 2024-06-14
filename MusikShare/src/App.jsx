@@ -7,12 +7,28 @@ import store from './store/store'
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import ImportPage from "./pages/ImportPage";
+import PlaylistImport from "./components/PlaylistImport";
 import ConvertPage from "./pages/ConvertPage";
-import ExportPage from "./pages/ExportPage";
+import PlaylistExport from "./components/PlaylistExport";
 import Footer from "./pages/FooterPage";
+import FAQPage from "./pages/FAQPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import BlogPage from './pages/BlogPage'
+import SpotifyLogin from "./pages/SpotifyLogin";
+import YouTubeLogin from "./pages/YouTubeLogin";
+import { useState } from "react";
+import SpotifyCallback from "./components/SpotifyCallback";
+import YouTubeCallback from "./components/YouTubeCallback";
+
 
 export default function App() {
+  const [importedPlaylists, setImportedPlaylists] = useState([]);
+
+  const handleImport = (playlists) => {
+    setImportedPlaylists(playlists);
+    console.log("Imported playlists:", playlists);
+  };
+
   return (
     <Provider store={store}>
     <BrowserRouter>
@@ -21,9 +37,16 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/import" element={<ImportPage />} />
-        <Route path="/convert" element={<ConvertPage />} />
-        <Route path="/export" element={<ExportPage />} />
+        <Route path="/import" element={<PlaylistImport onImport={handleImport}/>} />
+        <Route path="/convert" element={<ConvertPage importedPlaylists={importedPlaylists}/>} />
+        <Route path="/export" element={<PlaylistExport playlists={importedPlaylists.length ? importedPlaylists : []}/>} />
+        <Route path="/FAQ" element={<FAQPage />} />
+        <Route path="/about-us" element={<AboutUsPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/spotify/login" element={<SpotifyLogin />} />
+        <Route path="/spotify/callback" element={<SpotifyCallback />} />
+        <Route path="/youtube/login" element={<YouTubeLogin />} />
+        <Route path="/youtube/callback" element={<YouTubeCallback />} />
       </Routes>
       <ToastContainer
         position="bottom-center"

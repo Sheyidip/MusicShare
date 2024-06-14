@@ -2,7 +2,6 @@
   text-align: center;
   padding: 50px 20px;
   color: #ffffff94;
-  
 }
 
 /* Hero Section */
@@ -63,7 +62,7 @@
   text-align: center;
 }
 
-.description ul {
+.no-bullets {
   list-style-type: none;
   padding-left: 20px;
 }
@@ -110,18 +109,17 @@
 .logo {
   font-size: 50px;
   margin-bottom: 10px;
-  color: #1DB954; /* Spotify green */
+  color: #1DB954;
 }
 
 .feature:nth-child(2) .logo {
-  color: black; /* Apple black */
+  color: black;
 }
 
 .feature:nth-child(3) .logo {
-  color: #FF0000; /* YouTube red */
+  color: #FF0000;
 }
 
-/* Testimonials/Reviews Section */
 .testimonials {
   margin: 50px 0;
 }
@@ -199,69 +197,4 @@
 
 .prev:hover, .next:hover {
   background-color: rgba(0,0,0,0.8);
-}
-
-/* FAQ Section */
-.faq {
-  margin: 50px 0;
-}
-
-.faqItem {
-  margin-bottom: 20px;
-}
-
-.faq h2 {
-  font-size: 32px;
-  margin-bottom: 20px;
-  color: bisque;
-}
-
-.faq h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: bisque;
-}
-
-/* Footer */
-.footer {
-  background-image: url('../assets/images/benjamin-salvatore-gfz8qqKcipo-unsplash.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  padding: 20px;
-  text-align: center;
-  color: bisque;
-}
-
-.footerContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-}
-
-.footer nav {
-  margin: 20px 0;
-  
-}
-
-.footer nav a {
-  margin: 0 10px;
-  color: bisque;
-  text-decoration: none;
-}
-
-.footer nav a:hover {
-  text-decoration: underline;
-}
-
-.socialMedia {
-  margin: 20px 0;
-}
-
-.socialMedia a {
-  margin: 0 10px;
-  color: bisque;
-  font-size: 24px;
-  text-decoration: none;
 }

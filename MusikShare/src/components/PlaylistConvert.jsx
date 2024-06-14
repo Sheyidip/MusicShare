@@ -1,45 +1,37 @@
 // src/components/PlaylistConvert.jsx
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import PropTypes from 'prop-types';
 import './PlaylistConvert.css';
 
-const PlaylistConvert = ({ sourceService, targetService, playlist }) => {
-  const [convertedPlaylist, setConvertedPlaylist] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (sourceService && targetService && playlist) {
-      setLoading(true);
-      axios.post('http://localhost:5000/api/convert', { sourceService, targetService, playlist })
-        .then(response => {
-          setConvertedPlaylist(response.data);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.error('Error converting playlist:', error);
-          setLoading(false);
-        });
-    }
-  }, [sourceService, targetService, playlist]);
-
-  if (loading) {
-    return <div className="loading">Converting your playlist...</div>;
-  }
-
-  if (!convertedPlaylist) {
-    return null;
-  }
+const PlaylistConvert = ({ sourceService, targetService, playlists, onConvert }) => {
+  const handleConvert = (playlistId) => {
+    onConvert(playlistId, targetService);
+  };
 
   return (
-    <div className="convertedPlaylist">
-      <h3>Converted Playlist</h3>
+    <div className="playlistConvertWrapper">
+      <h3>Select a playlist to convert from {sourceService} to {targetService}</h3>
       <ul>
-        {convertedPlaylist.map((track, index) => (
-          <li key={index}>{track.title} by {track.artist}</li>
+        {playlists.map(playlist => (
+          <li key={playlist.id}>
+            {playlist.name} 
+            <button onClick={() => handleConvert(playlist.id)}>Convert</button>
+          </li>
         ))}
       </ul>
     </div>
   );
+};
+
+PlaylistConvert.propTypes = {
+  sourceService: PropTypes.string.isRequired,
+  targetService: PropTypes.string.isRequired,
+  playlists: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    service: PropTypes.string.isRequired,
+  })).isRequired,
+  onConvert: PropTypes.func.isRequired,
 };
 
 export default PlaylistConvert;

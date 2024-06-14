@@ -1,4 +1,4 @@
-const SpotifyWebApi = require('spotify-web-api-node');
+/*const SpotifyWebApi = require('spotify-web-api-node');
 const { getSpotifyAccessToken } = require('../utils/getSpotifyAccessToken');
 
 const spotifyApi = new SpotifyWebApi({
@@ -17,4 +17,4 @@ async function getSpotifyTrackDetails(trackId) {
   };
 }
 
-module.exports = { getSpotifyTrackDetails };
+module.exports = { getSpotifyTrackDetails };*/

@@ -1,55 +1,53 @@
 import React, { useState } from 'react';
-import {signInWithEmailAndPassword, getAuth } from 'firebase/auth'; // Corrected import
-import  OAuth from '../hooks/OAuth'
-import { toast } from "react-toastify";
-import './LoginPage.css';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import OAuth from '../hooks/OAuth';
+import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
-import {  useNavigate } from 'react-router-dom';
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
+import { useNavigate } from 'react-router-dom';
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import './LoginPage.css';
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const { email, password } = formData;
   const navigate = useNavigate();
+
   function onChange(e) {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
   }
+
   async function onSubmit(e) {
     e.preventDefault();
     try {
       const auth = getAuth();
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       if (userCredential.user) {
-        navigate("/");
+        navigate('/');
       }
     } catch (error) {
-      toast.error("Bad user credentials");
+      toast.error('Bad user credentials');
     }
   }
 
   return (
     <div className="loginWrapper">
-      
       <div className="loginContainer">
         <h2>Sign In</h2>
         <form onSubmit={onSubmit}>
           <div className="inputGroup">
             <input
               type="email"
+              id="email"
               placeholder="Email"
-              autoComplete="Email"
+              autoComplete="email"
               value={email}
               onChange={onChange}
               required
@@ -58,7 +56,8 @@ const LoginPage = () => {
           </div>
           <div className="inputGroup">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
+              id="password"
               placeholder="Password"
               autoComplete="current-password"
               value={password}
@@ -66,16 +65,16 @@ const LoginPage = () => {
               required
             />
             {showPassword ? (
-                <AiFillEyeInvisible
-                  className="absolute right-3 top-3 text-xl cursor-pointer"
-                  onClick={() => setShowPassword((prevState) => !prevState)}
-                />
-              ) : (
-                <AiFillEye
-                  className="absolute right-3 top-3 text-xl cursor-pointer"
-                  onClick={() => setShowPassword((prevState) => !prevState)}
-                />
-              )}
+              <AiFillEyeInvisible
+                className="togglePassword"
+                onClick={() => setShowPassword((prevState) => !prevState)}
+              />
+            ) : (
+              <AiFillEye
+                className="togglePassword"
+                onClick={() => setShowPassword((prevState) => !prevState)}
+              />
+            )}
             <FontAwesomeIcon icon={faLock} className="icon" />
           </div>
           <div className="remember-forgot">
